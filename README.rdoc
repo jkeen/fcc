@@ -1,6 +1,15 @@
 = fcc
 
-Description goes here.
+Queries the FCC database for FM information.
+
+FCC::FM.find("KUT") #=> KUT station info
+
+FCC::AM.find("KLBJ") #=> KLBJ station info
+
+FCC::FM.find_all(:city => "Austin", :state => "TX") #=> [FM::Station, FM::Station, FM::Station]
+
+
+TODO: Dry some of this out.
 
 == Contributing to fcc
  

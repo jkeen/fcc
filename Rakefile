@@ -15,8 +15,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "fcc"
   gem.homepage = "http://github.com/jkeen/fcc"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Searches the FCC's FM and AM databases}
+  gem.description = %Q{}
   gem.email = "jeff@keen.me"
   gem.authors = ["Jeff Keen"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
