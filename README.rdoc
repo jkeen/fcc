@@ -12,7 +12,7 @@ FCC::FM.find_all(:city => "Austin", :state => "TX") #=> [FM::Station, FM::Statio
 TODO: Dry some of this out.
 
 == Contributing to fcc
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
@@ -25,4 +25,3 @@ TODO: Dry some of this out.
 
 Copyright (c) 2011 Jeff Keen. See LICENSE.txt for
 further details.
-
