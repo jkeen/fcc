@@ -41,7 +41,14 @@ Gem::Specification.new do |s|
   ]
 
   s.add_dependency(%q<nokogiri>, [">= 0"])
-  s.add_development_dependency "bundler", "~> 1.16"
+  s.add_dependency "activesupport", "~> 6.0.3"
+  s.add_dependency "faraday", '~> 1.0'
+  s.add_dependency "faraday_middleware", '~> 1.0'
+  s.add_dependency "faraday-detailed_logger"
+  s.add_dependency "faraday-cookie_jar"
+  s.add_development_dependency "bundler", "~> 1.17"
   s.add_development_dependency "rake", "~> 10.0"
   s.add_development_dependency "shoulda", ">= 0"
+  s.add_development_dependency "byebug", ">= 0"
+  s.add_development_dependency "awesome_print", ">= 0"
 end
