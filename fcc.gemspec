@@ -24,9 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/am.rb",
     "lib/fcc.rb",
-    "lib/fm.rb",
     "test/helper.rb",
     "test/test_fcc.rb"
   ]
@@ -42,10 +40,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency(%q<nokogiri>, [">= 0"])
   s.add_dependency "activesupport", "~> 6.0.3"
-  s.add_dependency "faraday", '~> 1.0'
-  s.add_dependency "faraday_middleware", '~> 1.0'
-  s.add_dependency "faraday-detailed_logger"
-  s.add_dependency "faraday-cookie_jar"
+  s.add_dependency "httparty"
   s.add_development_dependency "bundler", "~> 1.17"
   s.add_development_dependency "rake", "~> 10.0"
   s.add_development_dependency "shoulda", ">= 0"
