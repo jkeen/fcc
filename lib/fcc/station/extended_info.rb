@@ -46,7 +46,7 @@ module FCC
         if id_or_call_sign =~ /^\d+$/
           id = id_or_call_sign
         else
-          id = FCC::Station::Info.new(@service).call_sign_to_id(id_or_call_sign)
+          id = FCC::Station.index(@service).call_sign_to_id(id_or_call_sign)
         end
 
         @results ||= begin
