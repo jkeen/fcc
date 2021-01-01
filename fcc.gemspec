@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.licenses = ["MIT"]
   spec.rubygems_version = %q{1.4.1}
   spec.summary = %q{Searches the FCC's FM, AM, and TV databases}
-  spec.add_dependency "activesupport", "~> 6.0.3"
+  spec.add_dependency "activesupport", ">= 6.0.3"
   spec.add_dependency "httparty", "~> 0.18"
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 12.3.3"
