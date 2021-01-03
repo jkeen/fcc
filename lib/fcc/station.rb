@@ -1,4 +1,4 @@
-require 'active_support'
+require 'active_support/core_ext/module/delegation'
 require_relative 'station/result_delegate'
 require_relative 'station/extended_info'
 require_relative 'station/index'
@@ -9,8 +9,16 @@ module FCC
     Contact = Struct.new(:name, :title, :address, :address2, :city, :state, :zip_code, :phone, :fax, :email, :website, keyword_init: true)
     Community = Struct.new(:city, :state, keyword_init: true)
 
-    def self.find(service, call_sign)
-      Result.new(service, call_sign)
+    def self.find_each(service, &block)
+      results = index(service).results
+
+      results.each do |result|
+        yield find(service, result['callSign'])
+      end
+    end
+
+    def self.find(service, call_sign, options = {})
+      Result.new(service, call_sign, options)
     end
 
     def self.index(service)
@@ -26,6 +34,12 @@ module FCC
       end
     end
 
+    def self.extended_info_cache(service) 
+      @cache ||= {}
+      @cache[service] ||= Station::Cache.new(service)
+      @cache[service]
+    end
+
     class Result
       EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical] # these take a long time to query
       BASIC_ATTRIBUTES    = %i[id call_sign status rf_channel license_expiration_date facility_type frequency]
@@ -35,9 +49,10 @@ module FCC
 
       alias_method :channel, :rf_channel
 
-      def initialize(service, call_sign)
+      def initialize(service, call_sign, options = {})
         @call_sign = call_sign.upcase
         @service = service
+        @options = options
 
         data
       end

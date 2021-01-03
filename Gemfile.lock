@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     fcc (1.0)
-      activesupport (>= 6.0.3)
+      activesupport (>= 6.1)
       httparty (~> 0.18)
 
 GEM
@@ -21,7 +21,7 @@ GEM
     httparty (0.18.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.5)
+    i18n (1.8.6)
       concurrent-ruby (~> 1.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
@@ -42,7 +42,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.4)
-    tzinfo (2.0.3)
+    tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     zeitwerk (2.4.2)
 
@@ -51,11 +51,11 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
-  bundler (~> 1.17)
+  bundler (~> 2.1)
   byebug
   fcc!
   rake (~> 12.3.3)
   rspec (~> 3.9.0)
 
 BUNDLED WITH
-   1.17.3
+   2.1.4

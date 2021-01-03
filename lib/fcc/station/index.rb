@@ -24,6 +24,10 @@ module FCC
         found['id'] if found
       end
 
+      def inspect
+        "<Station::Index @results=[#{results.size}]>"
+      end
+
       def results
         @results ||= begin
           response = self.class.get("/api/service/#{service.to_s.downcase}/facility/getall.json")

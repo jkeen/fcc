@@ -13,7 +13,7 @@ module FCC
         @service = service
       end
 
-      def find(id_or_call_sign)
+      def find(id_or_call_sign, options = {})
         id = if id_or_call_sign =~ /^\d+$/
                id_or_call_sign
              else
