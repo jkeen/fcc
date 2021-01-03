@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fcc (1.0)
+    fcc (1.1)
       activesupport (>= 6.1)
       httparty (~> 0.18)
 
