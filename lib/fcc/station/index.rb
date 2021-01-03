@@ -1,5 +1,5 @@
 require 'httparty'
-require 'byebug'
+
 module FCC
   module Station
     class Index
