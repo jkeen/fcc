@@ -6,7 +6,7 @@ module FCC
     class ExtendedInfo
       include HTTParty
       attr_accessor :results, :service
-      base_uri 'http://transition.fcc.gov/fcc-bin/'
+      base_uri 'https://transition.fcc.gov/fcc-bin/'
 
       def initialize(service)
         @service = service
@@ -46,6 +46,9 @@ module FCC
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
           response
+        rescue StandardError => e
+          puts e.message
+          puts e.backtrace
         end
       end
 
@@ -58,7 +61,7 @@ module FCC
 
         begin
           FCC::Station.extended_info_cache(@service).find(id)
-        rescue Exception => e
+        rescue StandardError => e
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(facid: id)))
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
           result = response.first
