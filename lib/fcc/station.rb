@@ -41,7 +41,7 @@ module FCC
     end
 
     class Result
-      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical am_operating_time antenna_type] # these take a long time to query
+      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical antenna_type] # these take a long time to query
       BASIC_ATTRIBUTES    = %i[id call_sign status rf_channel license_expiration_date facility_type frequency]
 
       delegate *EXTENDED_ATTRIBUTES, to: :extended_data 
@@ -63,8 +63,12 @@ module FCC
             result = send(attr.to_sym)
             next unless result
 
-            hash[attr] = if result.respond_to?(:to_h)
+
+
+            hash[attr] = if result.is_a?(Struct)
                           result.to_h
+                         elsif result.is_a?(Array)
+                          result
                          else
                           result.to_s
                          end
@@ -80,13 +84,21 @@ module FCC
         @community ||= Community.new(city: data.communityCity, state: data.communityState)
       end
 
+      def operating_hours
+        if @service == :am
+          extended_data.am_operating_time
+        else
+          nil
+        end
+      end
+
       def contact
         contact = data.mainStudioContact
         @contact ||= Contact.new(name: contact['contactName'], title: contact['contactTitle'], address: contact['contactAddress1'], address2: contact['contactAddress2'], city: contact['contactCity'], state: contact['contactState'], zip_code: contact['contactZip'], phone: contact['contactPhone'], fax: contact['contactFax'], email: contact['contactEmail'], website: contact['contactWebsite'])
       end
 
       def coordinates
-        [latitude.to_f, longitude.to_f].to_json
+        [latitude.to_f, longitude.to_f]
       end
 
       def coordinates_url
@@ -95,6 +107,10 @@ module FCC
 
       def extended_data_url
         "https://transition.fcc.gov/fcc-bin/#{@service.to_s.downcase}q?list=4&facid=#{id}"
+      end
+
+      def enterprise_data_url
+        "https://enterpriseefiling.fcc.gov/dataentry/public/tv/publicFacilityDetails.html?facilityId=#{id}"
       end
 
       def extended_data

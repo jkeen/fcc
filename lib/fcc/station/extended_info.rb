@@ -1,4 +1,5 @@
 require 'httparty'
+require 'byebug'
 require_relative './extended_info/parser'
 
 module FCC
@@ -43,7 +44,6 @@ module FCC
 
       def all_results
         @all_results ||= begin
-          puts "charging cache for #{service} extended info"
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
           response
@@ -67,16 +67,6 @@ module FCC
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
 
           response
-        end
-
-        return findings.first if findings.size == 1
-
-        keys = findings.collect(&:keys).flatten.uniq
-
-        {}.tap do |result|
-          keys.each do |key|
-            result[key] = response.collect { |finding| finding[key] }.flatten.uniq.join(' / ')
-          end
         end
       end
 

@@ -20,7 +20,12 @@ module FCC
              end
 
         response = self.class.get("/api/service/#{service.to_s.downcase}/facility/id/#{id}.json")
-        response['results']['facility']
+
+        begin
+          response['results']['facility']
+        rescue StandardError => e
+          return nil
+        end
       end
     end
   end

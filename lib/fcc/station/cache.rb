@@ -1,5 +1,7 @@
 require 'httparty'
 require_relative './extended_info/parser'
+require 'byebug'
+require 'lightly'
 
 module FCC
   module Station
@@ -9,6 +11,7 @@ module FCC
       def initialize(service)
         @service = service
         @store = Station::ExtendedInfo.new(@service)
+        @lightly = Lightly.new dir: "tmp/fcc_#{@service}_data", life: '7d', hash: true
       end
 
       def find(fcc_id)
@@ -16,8 +19,10 @@ module FCC
       end
 
       def results
-        #TODO: add redis caching tie-in because this query is molasses
-        @store.all_results.parsed_response
+        @lightly.get @service.to_s do
+          puts "loading up cache with all results"
+          @store.all_results.parsed_response
+        end
       end
 
       def inspect
