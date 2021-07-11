@@ -7,6 +7,10 @@ module FCC
         @result = result
       end
 
+      def exists?
+        @result.present?
+      end
+
       def method_missing(m, *args, &block)
         return find_result(@result, m) unless @result.is_a?(Array)
         return find_result(@result.first, m) if @result.size == 1

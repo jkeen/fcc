@@ -18,7 +18,9 @@ module FCC
     end
 
     def self.find(service, call_sign, options = {})
-      Result.new(service, call_sign, options)
+      result = Result.new(service, call_sign, options)
+
+      result if result&.data&.exists?
     end
 
     def self.index(service)
@@ -62,8 +64,6 @@ module FCC
           [EXTENDED_ATTRIBUTES | BASIC_ATTRIBUTES | %i[contact owner community]].flatten.each do |attr|
             result = send(attr.to_sym)
             next unless result
-
-
 
             hash[attr] = if result.is_a?(Struct)
                           result.to_h
