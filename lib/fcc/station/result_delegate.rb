@@ -15,11 +15,15 @@ module FCC
         return find_result(@result, m) unless @result.is_a?(Array)
         return find_result(@result.first, m) if @result.size == 1
 
-        results = @result.collect do |res|
-          find_result(res, m)
-        end.uniq
+        filtered_results = @result.filter { |result|
+          result[:status] == 'LIC' # Licensed only, no construction permits
+        }
 
-        results.size == 1 ? results.first : results
+        filtered_results = filtered_results.collect { |res|
+          find_result(res, m)
+        }.uniq
+
+        filtered_results.size == 1 ? filtered_results.first : filtered_results
       end
 
       private

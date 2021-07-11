@@ -21,7 +21,7 @@ module FCC
           # city: nil,
           # arn: nil,
           serv: service.to_s.downcase,
-          vac: 3, # licensed records only
+          status: 3, # licensed records only
           # freq: @service.to_sym == :fm ? '87.1' : '530',
           # fre2: @service.to_sym == :fm ? '107.9' : '1700',
           # facid: nil,
