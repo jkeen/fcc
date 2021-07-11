@@ -12,7 +12,7 @@ module FCC
       end
 
       def find(fcc_id)
-        results.detect { |r| r[:fcc_id].to_s == fcc_id.to_s }
+        results.filter { |r| r[:fcc_id].to_s == fcc_id.to_s }
       end
 
       def results

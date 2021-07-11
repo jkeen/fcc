@@ -9,12 +9,12 @@ module FCC
 
       def method_missing(m, *args, &block)
         if @result
-          matched_key = @result.keys.detect { |d| m.to_s == d.to_s } || @result.keys.detect { |d| m.to_s == d.underscore.to_s }
+          matched_key = @result.keys.detect { |d| m.to_s == d.to_s } || @result.keys.detect { |d| m.to_s == d.to_s.underscore }
 
           if matched_key
             @result[matched_key]
           else
-            super
+            nil
           end
         end
       end

@@ -34,14 +34,14 @@ module FCC
       end
     end
 
-    def self.extended_info_cache(service) 
+    def self.extended_info_cache(service)
       @cache ||= {}
       @cache[service] ||= Station::Cache.new(service)
       @cache[service]
     end
 
     class Result
-      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical] # these take a long time to query
+      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical am_operating_time antenna_type] # these take a long time to query
       BASIC_ATTRIBUTES    = %i[id call_sign status rf_channel license_expiration_date facility_type frequency]
 
       delegate *EXTENDED_ATTRIBUTES, to: :extended_data 
@@ -61,11 +61,13 @@ module FCC
         {}.tap do |hash|
           [EXTENDED_ATTRIBUTES | BASIC_ATTRIBUTES | %i[contact owner community]].flatten.each do |attr|
             result = send(attr.to_sym)
-            if result.respond_to?(:to_h)
-              hash[attr] = result.to_h
-            else
-              hash[attr] = result.to_s
-            end
+            next unless result
+
+            hash[attr] = if result.respond_to?(:to_h)
+                          result.to_h
+                         else
+                          result.to_s
+                         end
           end
         end
       end

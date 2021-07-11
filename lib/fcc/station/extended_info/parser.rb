@@ -15,9 +15,9 @@ module FCC
           attrs[:band]                     = fields[2]
           attrs[:channel]                  = fields[3]
           attrs[:antenna_type]             = fields[4] # Directional Antenna (DA) or NonDirectional (ND)
-          attrs[:am_operating_time]        = fields[5] if fields[5] && attrs[:band] == "AM" # (Only used for AM)
+          attrs[:am_operating_time]        = fields[5] if fields[5] && attrs[:band]&.upcase == "AM" # (Only used for AM)
           attrs[:station_class]            = fields[6]
-          attrs[:region_2_station_class]   = fields[7] if fields[7] && attrs[:band] == "AM" # (only used for AM)
+          attrs[:region_2_station_class]   = fields[7] if fields[7] && attrs[:band]&.upcase == "AM" # (only used for AM)
           attrs[:status]                   = fields[8]
           attrs[:city]                     = fields[9]
           attrs[:state]                    = fields[10]
