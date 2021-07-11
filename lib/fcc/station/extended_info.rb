@@ -62,11 +62,10 @@ module FCC
 
         findings = begin
           FCC::Station.extended_info_cache(@service).find(id)
-        rescue StandardError
+        rescue StandardError => e
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(facid: id)))
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
-
-          response
+          response&.parsed_response
         end
       end
 
