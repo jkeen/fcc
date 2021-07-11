@@ -20,7 +20,7 @@ module FCC
     def self.find(service, call_sign, options = {})
       result = Result.new(service, call_sign, options)
 
-      result if result&.data&.exists?
+      result if result&.exists?
     end
 
     def self.index(service)
@@ -43,7 +43,7 @@ module FCC
     end
 
     class Result
-      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude coordinates station_class file_number effective_radiated_power haat_horizontal haat_vertical antenna_type] # these take a long time to query
+      EXTENDED_ATTRIBUTES = %i[signal_strength latitude longitude station_class file_number effective_radiated_power haat_horizontal haat_vertical antenna_type] # these take a long time to query
       BASIC_ATTRIBUTES    = %i[id call_sign status rf_channel license_expiration_date facility_type frequency]
 
       delegate *EXTENDED_ATTRIBUTES, to: :extended_data 
@@ -59,6 +59,14 @@ module FCC
         data
       end
 
+      def licensed?
+        exists? && data.status == "LICENSED"
+      end
+
+      def exists?
+        data.instance_variable_get('@result')
+      end
+
       def to_json
         {}.tap do |hash|
           [EXTENDED_ATTRIBUTES | BASIC_ATTRIBUTES | %i[contact owner community]].flatten.each do |attr|
@@ -67,9 +75,9 @@ module FCC
 
             hash[attr] = if result.is_a?(Struct)
                           result.to_h
-                         elsif result.is_a?(Array)
+                         elsif result.is_a?(Array) && result.compact.size > 0
                           result
-                         else
+                         elsif result.present?
                           result.to_s
                          end
           end
@@ -97,12 +105,10 @@ module FCC
         @contact ||= Contact.new(name: contact['contactName'], title: contact['contactTitle'], address: contact['contactAddress1'], address2: contact['contactAddress2'], city: contact['contactCity'], state: contact['contactState'], zip_code: contact['contactZip'], phone: contact['contactPhone'], fax: contact['contactFax'], email: contact['contactEmail'], website: contact['contactWebsite'])
       end
 
-      def coordinates
-        [latitude.to_f, longitude.to_f]
-      end
-
       def coordinates_url
-        "https://www.google.com/maps/search/#{coordinates[0]},#{coordinates[1]}"
+        if latitude.present? && longitude.present?
+          "https://www.google.com/maps/search/#{latitude},#{longitude}"
+        end
       end
 
       def extended_data_url
