@@ -59,8 +59,12 @@ module FCC
         data
       end
 
+      def details_available?
+        exists? && data.latitude.present?
+      end
+
       def licensed?
-        exists? && data.status == "LICENSED"
+        exists? && data.status == 'LICENSED' && data.license_expiration_date && Time.parse(data.license_expiration_date) > Time.now
       end
 
       def exists?

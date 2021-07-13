@@ -20,7 +20,7 @@ module FCC
           # call: nil,
           # city: nil,
           # arn: nil,
-          serv: service.to_s.downcase,
+          serv: service.to_s.downcase, # Only return primary main records, no backup transmitters, etc… for now
           status: 3, # licensed records only
           # freq: @service.to_sym == :fm ? '87.1' : '530',
           # fre2: @service.to_sym == :fm ? '107.9' : '1700',
@@ -60,7 +60,7 @@ module FCC
           id = FCC::Station.index(@service).call_sign_to_id(id_or_call_sign)
         end
 
-        findings = begin
+        begin
           FCC::Station.extended_info_cache(@service).find(id)
         rescue StandardError => e
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(facid: id)))
