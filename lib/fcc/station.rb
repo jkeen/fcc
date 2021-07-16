@@ -36,10 +36,8 @@ module FCC
       end
     end
 
-    def self.extended_info_cache(service)
-      @cache ||= {}
-      @cache[service] ||= Station::Cache.new(service)
-      @cache[service]
+    def self.extended_info_cache
+      @cache ||= Station::Cache.new
     end
 
     class Result
@@ -97,11 +95,7 @@ module FCC
       end
 
       def operating_hours
-        if @service == :am
-          extended_data.am_operating_time
-        else
-          nil
-        end
+        extended_data.am_operating_time if @service == :am
       end
 
       def contact
@@ -110,9 +104,7 @@ module FCC
       end
 
       def coordinates_url
-        if latitude.present? && longitude.present?
-          "https://www.google.com/maps/search/#{latitude},#{longitude}"
-        end
+        "https://www.google.com/maps/search/#{latitude},#{longitude}" if latitude.present? && longitude.present?
       end
 
       def extended_data_url

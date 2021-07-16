@@ -8,25 +8,15 @@ module FCC
     class Cache
       attr_reader :store
 
-      def initialize(service)
-        @service = service
-        @store = Station::ExtendedInfo.new(@service)
-        @lightly = Lightly.new dir: "tmp/fcc_#{@service}_data", life: '7d', hash: true
+      def initialize
+        @lightly = Lightly.new dir: "tmp/fcc_#{@service}_data", life: '3d', hash: true
       end
 
-      def find(fcc_id)
-        results.filter { |r| r[:fcc_id].to_s == fcc_id.to_s }
-      end
-
-      def results
-        @lightly.get @service.to_s do
+      def fetch key
+        @lightly.get key.to_s do
           puts "loading up cache with all results"
-          @store.all_results.parsed_response
+          yield
         end
-      end
-
-      def inspect
-        "<Cache @service=#{service}>"
       end
     end
   end

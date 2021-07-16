@@ -43,10 +43,13 @@ module FCC
       end
 
       def all_results
-        @all_results ||= begin
-          response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
-          puts response.request.uri.to_s.gsub('&list=4', '&list=0')
-          response
+        begin
+          cache_key = "#{self.class.instance_variable_get('@default_options')[:base_uri]}/#{@service.to_s.downcase}q"
+          FCC.cache.fetch cache_key do
+            response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
+            puts response.request.uri.to_s.gsub('&list=4', '&list=0')
+            response.parsed_response
+          end
         rescue StandardError => e
           puts e.message
           puts e.backtrace
@@ -61,7 +64,7 @@ module FCC
         end
 
         begin
-          FCC::Station.extended_info_cache(@service).find(id)
+          all_results.filter { |r| r[:fcc_id].to_s == id.to_s }
         rescue StandardError => e
           response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(facid: id)))
           puts response.request.uri.to_s.gsub('&list=4', '&list=0')
