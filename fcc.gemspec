@@ -6,7 +6,6 @@ Gem::Specification.new do |spec|
   spec.name = %q{fcc}
   spec.version = FCC::VERSION
   spec.authors = ["Jeff Keen"]
-  spec.date = %q{2011-01-30}
   spec.description = %q{}
   spec.email = %q{jeff@keen.me}
   spec.homepage      = "http://github.com/jkeen/fcc"
@@ -17,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.homepage = %q{http://github.com/jkeen/fcc}
   spec.licenses = ["MIT"]
   spec.rubygems_version = %q{1.4.1}
-  spec.summary = %q{Searches the FCC's FM, AM, and TV dbunatabases}
+  spec.summary = %q{Searches the FCC's FM, AM, and TV databases}
   spec.add_dependency "activesupport", ">= 6.1"
   spec.add_dependency "httparty", "~> 0.18"
   spec.add_dependency "lightly", "~> 0.3.3"
