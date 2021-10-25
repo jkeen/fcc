@@ -1,6 +1,5 @@
 require 'httparty'
 require_relative './extended_info/parser'
-require 'byebug'
 require 'lightly'
 
 module FCC
