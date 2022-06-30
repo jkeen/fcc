@@ -8,7 +8,7 @@ module FCC
       attr_reader :store
 
       def initialize
-        @lightly = Lightly.new dir: "tmp/fcc_#{@service}_data", life: '3d', hash: true
+        @lightly = Lightly.new dir: "tmp/fcc_data", life: '3d', hash: true
       end
 
       def fetch key
