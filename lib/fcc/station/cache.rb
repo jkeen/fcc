@@ -13,7 +13,7 @@ module FCC
 
       def fetch key
         @lightly.get key.to_s do
-          puts "loading up cache with all results"
+          puts "loading up cache with all results. this takes a while, but is way quicker than one-off querying this ancient API"
           yield
         end
       end

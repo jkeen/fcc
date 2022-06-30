@@ -14,12 +14,13 @@ module FCC
         @options = {
           follow_redirects: true
         }
+        
         @query = {
           # state: nil,
           # call: nil,
           # city: nil,
           # arn: nil,
-          serv: service.to_s.downcase, # Only return primary main records, no backup transmitters, etc… for now
+          # serv: service.to_s.downcase, # Only return primary main records, no backup transmitters, etc… for now
           status: 3, # licensed records only
           # freq: @service.to_sym == :fm ? '87.1' : '530',
           # fre2: @service.to_sym == :fm ? '107.9' : '1700',
@@ -58,17 +59,16 @@ module FCC
       def find(id_or_call_sign)
         if id_or_call_sign =~ /^\d+$/
           id = id_or_call_sign
+          all_results.filter { |r| r[:fcc_id].to_s == id.to_s } || find_directly({ facid: id_or_call_sign })
         else
-          id = FCC::Station.index(@service).call_sign_to_id(id_or_call_sign)
+          all_results.filter { |r| r[:call_sign].to_s == id_or_call_sign.to_s } || find_directly({ call: id_or_call_sign })
         end
+      end
 
-        begin
-          all_results.filter { |r| r[:fcc_id].to_s == id.to_s }
-        rescue StandardError => e
-          response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(facid: id)))
-          puts response.request.uri.to_s.gsub('&list=4', '&list=0')
-          response&.parsed_response
-        end
+      def find_directly(options)
+        response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(options)))
+        puts response.request.uri.to_s.gsub('&list=4', '&list=0')
+        response.parsed_response
       end
 
       parser FCC::Station::ExtendedInfoParser

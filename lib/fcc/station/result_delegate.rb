@@ -25,7 +25,7 @@ module FCC
       private
 
       def find_key(result, name)
-        result.keys.detect { |d| name.to_s == d.to_s } || result.keys.detect { |d| name.to_s == d.to_s.underscore }
+        result&.keys&.detect { |d| name.to_s == d.to_s } || result&.keys&.detect { |d| name.to_s == d.to_s.underscore }
       end
 
       def find_result(result, name)

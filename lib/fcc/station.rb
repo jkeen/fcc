@@ -18,9 +18,7 @@ module FCC
     end
 
     def self.find(service, call_sign, options = {})
-      result = Result.new(service, call_sign, options)
-
-      result if result&.exists?
+      Result.new(service, call_sign, options)
     end
 
     def self.index(service)
@@ -99,7 +97,9 @@ module FCC
       end
 
       def contact
-        contact = data.mainStudioContact
+        contact = data&.mainStudioContact
+
+        return unless contact
         @contact ||= Contact.new(name: contact['contactName'], title: contact['contactTitle'], address: contact['contactAddress1'], address2: contact['contactAddress2'], city: contact['contactCity'], state: contact['contactState'], zip_code: contact['contactZip'], phone: contact['contactPhone'], fax: contact['contactFax'], email: contact['contactEmail'], website: contact['contactWebsite'])
       end
 
