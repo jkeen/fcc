@@ -61,7 +61,9 @@ module FCC
           id = id_or_call_sign
           all_results.filter { |r| r[:fcc_id].to_s == id.to_s } || find_directly({ facid: id_or_call_sign })
         else
-          all_results.filter { |r| r[:call_sign].to_s == id_or_call_sign.to_s } || find_directly({ call: id_or_call_sign })
+          all_results.filter { |r| 
+            r[:call_sign].to_s == id_or_call_sign.to_s || r[:call_sign].to_s.upcase =~ Regexp.new("^#{id_or_call_sign.upcase}[-—–][A-Z0-9]+$")
+          } || find_directly({ call: id_or_call_sign })
         end
       end
 
@@ -70,7 +72,7 @@ module FCC
         puts response.request.uri.to_s.gsub('&list=4', '&list=0')
         response.parsed_response
       end
-
+      
       parser FCC::Station::ExtendedInfoParser
     end
   end
