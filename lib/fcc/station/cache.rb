@@ -1,5 +1,5 @@
 require 'httparty'
-require_relative './extended_info/parser'
+require_relative './parsers/extended_info'
 require 'lightly'
 
 module FCC
@@ -8,12 +8,12 @@ module FCC
       attr_reader :store
 
       def initialize
-        @lightly = Lightly.new dir: "tmp/fcc_data", life: '3d', hash: true
+        @lightly = Lightly.new dir: FCC::TMP_DIR, life: '3d', hash: true
       end
 
       def fetch key
         @lightly.get key.to_s do
-          puts "loading up cache with all results. this takes a while, but is way quicker than one-off querying this ancient API"
+          puts "Loading up the cache with results from query: #{key}. This might take a while, but after that you're good for a while"
           yield
         end
       end

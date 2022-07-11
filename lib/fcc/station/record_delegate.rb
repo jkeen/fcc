@@ -51,6 +51,18 @@ module FCC
         super || send(:fcc_id)
       end
 
+      def frequency
+        super&.to_f
+      end
+
+      def rf_channel
+        super || send(:channel)
+      end
+
+      def operating_hours
+        super&.downcase
+      end
+
       def owner
         @owner ||= begin
           contact = Contact.new(
@@ -85,8 +97,8 @@ module FCC
         end
       end
 
-      def operating_hours
-        super&.downcase
+      def inspect
+        "<RecordDelegate:[#{band}] #{frequency} #{call_sign} — #{community.city} #{community.state} />"
       end
 
       private

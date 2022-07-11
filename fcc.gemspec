@@ -20,9 +20,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport", ">= 6.1"
   spec.add_dependency "httparty", "~> 0.18"
   spec.add_dependency "lightly", "~> 0.3.3"
+  spec.add_dependency "rubyzip"
   spec.add_development_dependency "bundler", "~> 2.1"
   spec.add_development_dependency "rake", "~> 12.3.3"
   spec.add_development_dependency 'rspec', '~> 3.9.0'
-  spec.add_development_dependency "byebug", ">= 0"
-  spec.add_development_dependency "awesome_print", ">= 0"
 end

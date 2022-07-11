@@ -1,5 +1,5 @@
 require 'httparty'
-require_relative './extended_info/parser'
+require_relative './parsers/extended_info'
 
 module FCC
   module Station
@@ -73,7 +73,7 @@ module FCC
         response.parsed_response
       end
       
-      parser FCC::Station::ExtendedInfoParser
+      parser FCC::Station::Parsers::ExtendedInfo
     end
   end
 end

@@ -4,6 +4,7 @@ require_relative 'station/cache'
 require_relative 'station/index'
 require_relative 'station/info'
 require_relative 'station/result'
+require_relative 'station/lms_data'
 require_relative 'station/record_group'
 require_relative 'station/record_delegate'
 
