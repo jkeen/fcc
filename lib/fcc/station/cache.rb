@@ -1,6 +1,7 @@
 require 'httparty'
 require_relative './parsers/extended_info'
 require 'lightly'
+require 'logger'
 
 module FCC
   module Station
@@ -8,13 +9,25 @@ module FCC
       attr_reader :store
 
       def initialize
-        @lightly = Lightly.new dir: FCC::TMP_DIR, life: '3d', hash: true
+        @lightly = Lightly.new(life: '3d', hash: true).tap do |cache|
+          cache.prune
+        end
       end
 
-      def fetch key
-        @lightly.get key.to_s do
-          puts "Loading up the cache with results from query: #{key}. This might take a while, but after that you're good for a while"
-          yield
+      def flush
+        @lightly.flush
+      end
+
+      def fetch(key)
+        FCC.log("Retreiving #{key} from cache")
+        @lightly.get(key.to_s) do
+          FCC.log "Loading up the cache with results for key: #{key}. This might take a minute…"
+          value = yield
+          if value && value.present?
+            value
+          else
+            nil
+          end
         end
       end
     end

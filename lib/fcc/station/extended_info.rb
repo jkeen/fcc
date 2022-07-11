@@ -43,16 +43,17 @@ module FCC
       end
 
       def all_results
+
         begin
           cache_key = "#{self.class.instance_variable_get('@default_options')[:base_uri]}/#{@service.to_s.downcase}q"
           FCC.cache.fetch cache_key do
             response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
-            puts response.request.uri.to_s.gsub('&list=4', '&list=0')
+            FCC.log(response.request.uri.to_s.gsub('&list=4', '&list=0'))
             response.parsed_response
           end
         rescue StandardError => e
-          puts e.message
-          puts e.backtrace
+          FCC.error(e.message)
+          FCC.error(e.backtrace)
         end
       end
 
@@ -68,8 +69,9 @@ module FCC
       end
 
       def find_directly(options)
+
         response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(options)))
-        puts response.request.uri.to_s.gsub('&list=4', '&list=0')
+        FCC.log response.request.uri.to_s.gsub('&list=4', '&list=0')
         response.parsed_response
       end
       

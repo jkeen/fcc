@@ -100,24 +100,24 @@ module FCC
       end
 
       def print_broadcast_summary
-        puts "[primary]"
+        FCC.log "[primary]"
         transition_records.each do |record|
-          puts "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
+          FCC.log "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
         end
 
-        puts "[translators]"
+        FCC.log "[translators]"
         related_translators.each do |record|
-          puts "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
+          FCC.log "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
         end
 
-        puts "[related stations]"
+        FCC.log "[related stations]"
         related_stations.each do |record|
-          puts "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
+          FCC.log "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
         end
 
-        puts "[all related]"
+        FCC.log "[all related]"
         related.each do |record|
-          puts "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
+          FCC.log "[#{record.band}] #{record.frequency} #{record.call_sign} — #{record.community.city} #{record.community.state}"
         end
 
         nil

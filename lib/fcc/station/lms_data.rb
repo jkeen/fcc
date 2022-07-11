@@ -57,11 +57,11 @@ module FCC
       end
 
       def facilities
-        @facilities ||= CSV.parse(File.read(lms_file(:facility)), col_sep: '|', headers: true)
+        @facilities ||= read(:facility)
       end
 
       def common_station_data
-        @common_station_data ||= CSV.parse(File.read(lms_file(:common_station)), col_sep: '|', headers: true)
+        @common_station_data ||= read(:common_station)
       end
 
       def find_facilities(facility_ids:, call_signs: [])
@@ -84,64 +84,51 @@ module FCC
         end
       end
 
+      def read(file_name)
+        key = "#{lms_date}-#{file_name}"
+        remote_url = URI("#{BASE_URI}/#{lms_date}/#{file_name}.zip")
+        FCC.log remote_url
+        contents = FCC.cache.fetch key do
+          begin
+            temp_file = http_download_uri(remote_url)
+            break if temp_file.empty?
+
+            contents = ""
+            Zip::File.open_buffer(temp_file) do |zf| 
+              contents = zf.read(zf.entries.first)
+              break
+            end
+
+            value = contents
+          rescue Exception => e
+            FCC.error(e.message)
+            value = nil
+          ensure
+            value
+          end
+        end
+
+        if contents
+          CSV.parse(contents, col_sep: '|', headers: true)
+        end
+      end
+
       protected
 
       def call_signs_match?(ours, theirs)
         theirs.to_s.upcase.to_s == ours.to_s.upcase.to_s || theirs.to_s.upcase =~ Regexp.new("^#{ours.to_s.upcase}[-—–][A-Z0-9]+$")
       end
 
-      def lms_file(file_name)
-        remote_url = URI("#{BASE_URI}/#{lms_date}/#{file_name}.zip")
-        # FCC.cache.fetch "#{lms_date}-#{file_name}-cache" do
-
-        base_file_name = File.join(FCC::TMP_DIR, "#{lms_date}-#{file_name}")
-        zip_file = "#{base_file_name}.zip"
-        dat_file = "#{base_file_name}.dat"
-
-        unless File.exist?(zip_file)
-          response = nil
-          http_download_uri(remote_url, zip_file)
-        end
-
-        unless File.exist?(dat_file)
-          paths = []
-          Zip::File.open(zip_file) do |zip_file|
-            zip_file.each do |f|
-              FileUtils.mkdir_p(File.dirname(dat_file))
-              zip_file.extract(f, dat_file)
-
-              break
-            end
-          end
-        end
-
-        dat_file
-        # end
-      end
-
-      def http_download_uri(uri, filename)
-        puts 'Downloading ' + uri.to_s
-        http_object = Net::HTTP.new(uri.host, uri.port)
-        http_object.use_ssl = true if uri.scheme == 'https'
+      def http_download_uri(uri)
+        FCC.log 'Downloading ' + uri.to_s
         begin
-          http_object.start do |http|
-            request = Net::HTTP::Get.new uri.request_uri
-            http.read_timeout = 500
-            http.request request do |response|
-              open(filename, 'w') do |io|
-                response.read_body do |chunk|
-                  io.write chunk
-                end
-              end
-            end
-          end
+          Tempfile.create { HTTParty.get(uri)&.body }
         rescue Exception => e
-          puts "=> Exception: '#{e}'. Skipping download."
-          return
-        end
-        puts 'Stored download as ' + filename + '.'
+          FCC.error "=> Exception: '#{e}'. Skipping download."
 
-        filename
+          raise e
+          return false
+        end
       end
 
       def lms_date
