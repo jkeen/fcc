@@ -7,7 +7,7 @@ module FCC
       include HTTParty
       attr_accessor :results, :service
 
-      base_uri 'https://transition.fcc.gov/fcc-bin/'
+      base_uri 'https://fcc-cache.b-cdn.net/fcc-bin/'
 
       def initialize(service)
         @service = service
@@ -69,7 +69,6 @@ module FCC
       end
 
       def find_directly(options)
-
         response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query.merge(options)))
         FCC.log response.request.uri.to_s.gsub('&list=4', '&list=0')
         response.parsed_response
