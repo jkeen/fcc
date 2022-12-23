@@ -76,6 +76,8 @@ module FCC
           records.keys.map do |call|
             RecordDelegate.new(ExtendedInfo.new(@service).find(call))
           end.select { |f| f.status.upcase == "LIC" }
+        rescue
+          []
         end
       end
 
