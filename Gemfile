@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| 'https://github.com/jkeen/fcc' }
 
-# Specify your gem's dependencies in popularity.gemspec
+# Specify your gem's dependencies in fcc.gemspec
 gemspec
 
 # group :development do
