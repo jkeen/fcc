@@ -18,11 +18,12 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = %q{1.4.1}
   spec.summary = %q{Searches the FCC's FM, AM, and TV databases}
   spec.add_dependency "activesupport", ">= 6.1"
-  spec.add_dependency "httparty", "~> 0.18"
-  spec.add_dependency "lightly", "~> 0.3.3"
+  spec.add_dependency "httparty", "~> 0.21"
+  spec.add_dependency "csv"
+  spec.add_dependency "lightly", "~> 0.4.0"
   spec.add_dependency "rubyzip", "~> 2.3.2"
   spec.add_dependency "logger"
-  spec.add_development_dependency "bundler", "~> 2.1"
+  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake", "~> 12.3.3"
   spec.add_development_dependency 'rspec', '~> 3.9.0'
 end

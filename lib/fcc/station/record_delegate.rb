@@ -44,7 +44,7 @@ module FCC
       end
 
       def has_data?
-        @result.present?
+        @result
       end
 
       def id
