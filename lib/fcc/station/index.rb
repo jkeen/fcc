@@ -1,10 +1,9 @@
 require 'httparty'
-
 module FCC
   module Station
     class Index
       include HTTParty
-      base_uri 'publicfiles.fcc.gov'
+      base_uri 'https://publicfiles.fcc.gov'
 
       attr_accessor :service
 
