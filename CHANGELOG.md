@@ -1,5 +1,7 @@
 fcc changelog
 
+## [1.4.5](https://github.com/jkeen/fcc/compare/v1.4.4...v1.4.5) (2024-03-20)
+
 ## [1.4.4](https://github.com/jkeen/fcc/compare/v1.4.3...v1.4.4) (2024-03-20)
 
 
