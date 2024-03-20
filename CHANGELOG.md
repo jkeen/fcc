@@ -1,5 +1,12 @@
 fcc changelog
 
+## [1.4.4](https://github.com/jkeen/fcc/compare/v1.4.3...v1.4.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* update httparty for ruby 3.3 compatibility ([48df404](https://github.com/jkeen/fcc/commit/48df4049f2fd3837a80625149ce4c9d1c3d9d12a))
+
 ## [1.4.3](https://github.com/jkeen/fcc/compare/v1.4.2...v1.4.3) (2024-03-20)
 
 
