@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.homepage = %q{http://github.com/jkeen/fcc}
   spec.licenses = ["MIT"]
-  spec.rubygems_version = %q{1.4.1}
+  spec.required_ruby_version = ">= 2.7"
   spec.summary = %q{Searches the FCC's FM, AM, and TV databases}
   spec.add_dependency "activesupport", ">= 6.1"
   spec.add_dependency "httparty", "~> 0.21"
