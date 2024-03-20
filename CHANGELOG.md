@@ -1,5 +1,12 @@
 fcc changelog
 
+## [1.4.3](https://github.com/jkeen/fcc/compare/v1.4.2...v1.4.3) (2024-03-20)
+
+
+### Bug Fixes
+
+* switch another url reference to use https ([c6321d1](https://github.com/jkeen/fcc/commit/c6321d1897a702b8c090eea8abce21ac562d5082))
+
 ## [1.4.2](https://github.com/jkeen/fcc/compare/v1.4.1...v1.4.2) (2024-03-20)
 
 
