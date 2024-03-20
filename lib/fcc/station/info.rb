@@ -4,7 +4,7 @@ module FCC
   module Station
     class Info
       include HTTParty
-      base_uri 'publicfiles.fcc.gov'
+      base_uri 'https://publicfiles.fcc.gov'
 
       attr_accessor :results, :service
 
