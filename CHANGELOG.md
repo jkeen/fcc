@@ -1,5 +1,12 @@
 fcc changelog
 
+## [1.4.6](https://github.com/jkeen/fcc/compare/v1.4.5...v1.4.6) (2024-05-06)
+
+
+### Bug Fixes
+
+* Update some syntax to get things working better with some FCC changes ([9020eee](https://github.com/jkeen/fcc/commit/9020eeee85f1e9689ccff108f9438e48fcbe550c))
+
 ## [1.4.5](https://github.com/jkeen/fcc/compare/v1.4.4...v1.4.5) (2024-03-20)
 
 ## [1.4.4](https://github.com/jkeen/fcc/compare/v1.4.3...v1.4.4) (2024-03-20)
