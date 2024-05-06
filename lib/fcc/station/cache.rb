@@ -23,7 +23,7 @@ module FCC
         @lightly.get(key.to_s) do
           FCC.log "Loading up the cache with results for key: #{key}. This might take a minute…"
           value = yield
-          if value && value.present?
+          if value
             value
           else
             nil

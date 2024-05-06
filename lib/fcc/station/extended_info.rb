@@ -7,7 +7,7 @@ module FCC
       include HTTParty
       attr_accessor :results, :service
 
-      base_uri 'https://fcc-cache.b-cdn.net/fcc-bin/'
+      base_uri 'https://transition.fcc.gov/fcc-bin/'
 
       def initialize(service)
         @service = service
@@ -48,7 +48,10 @@ module FCC
           cache_key = "#{self.class.instance_variable_get('@default_options')[:base_uri]}/#{@service.to_s.downcase}q"
           FCC.cache.fetch cache_key do
             response = self.class.get("/#{service.to_s.downcase}q", @options.merge(query: @query))
-            FCC.log(response.request.uri.to_s.gsub('&list=4', '&list=0'))
+
+            FCC.log("Request: #{response.request.uri}")
+            FCC.log("Inspect: #{response.request.uri.to_s.gsub('&list=4', '&list=0')}")
+
             response.parsed_response
           end
         rescue StandardError => e

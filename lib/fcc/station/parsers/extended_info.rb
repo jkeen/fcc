@@ -12,7 +12,7 @@ module FCC
             fields = row.split('|').slice(1...-1).collect(&:strip).map { |v| v == '-' ? "" : v }
 
             attrs[:call_sign]                = fields[0]
-            attrs[:frequency]                = parse_frequency(fields[1])
+            attrs[:frequency]                = parse_frequency(fields[1]) rescue nil
             attrs[:band]                     = fields[2]
             attrs[:channel]                  = fields[3]
             attrs[:antenna_type]             = fields[4] # Directional Antenna (DA) or NonDirectional (ND)
@@ -24,13 +24,13 @@ module FCC
             attrs[:state]                    = fields[10]
             attrs[:country]                  = fields[11]
             attrs[:file_number]              = fields[12]  #File Number (Application, Construction Permit or License) or
-            attrs[:signal_strength]          = parse_signal_strength(fields[13]) # Effective Radiated Power --
-            attrs[:effective_radiated_power] = parse_signal_strength(fields[14]) # Effective Radiated Power -- vertically polarized (maximum)
+            attrs[:signal_strength]          = parse_signal_strength(fields[13]) rescue nil # Effective Radiated Power --
+            attrs[:effective_radiated_power] = parse_signal_strength(fields[14]) rescue nil # Effective Radiated Power -- vertically polarized (maximum)
             attrs[:haat_horizontal]          = fields[15] # Antenna Height Above Average Terrain (HAAT) -- horizontal polarization
             attrs[:haat_vertical]            = fields[16] # Antenna Height Above Average Terrain (HAAT) -- vertical polarization
             attrs[:fcc_id]                   = fields[17] # Facility ID Number (unique to each station)
-            attrs[:latitude]                 = parse_latitude(fields[18], fields[19], fields[20], fields[21])
-            attrs[:longitude]                = parse_longitude(fields[22], fields[23], fields[24], fields[25])
+            attrs[:latitude]                 = parse_latitude(fields[18], fields[19], fields[20], fields[21]) rescue nil
+            attrs[:longitude]                = parse_longitude(fields[22], fields[23], fields[24], fields[25]) rescue nil
             attrs[:licensed_to]              = fields[26] # Licensee or Permittee
 
             results << attrs
@@ -52,7 +52,7 @@ module FCC
         end
 
         def parse_signal_strength(power_string)
-          return unless power_string.present?
+          return unless power_string
 
           number, unit = power_string.strip.scan(/^([0-9.]+)\s+(\w+)$?/).flatten
           multiplier   = case unit&.downcase

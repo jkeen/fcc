@@ -98,7 +98,7 @@ module FCC
       end
 
       def inspect
-        "<RecordDelegate:[#{band}] #{frequency} #{call_sign} — #{community.city} #{community.state} />"
+        "<RecordDelegate:[#{band}] #{frequency} #{call_sign} — #{community&.city} #{community&.state} />"
       end
 
       private

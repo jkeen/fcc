@@ -29,7 +29,7 @@ module FCC
 
       def results
         @results ||= begin
-          response = self.class.get("/api/service/#{service.to_s.downcase}/facility/getall.json")
+          response = self.class.get("/api/service/#{service.to_s.downcase}/facility/getall")
           response.parsed_response['results']['facilityList']
         end
       end

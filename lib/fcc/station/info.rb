@@ -19,7 +19,7 @@ module FCC
                Station.index(service).call_sign_to_id(id_or_call_sign)
              end
 
-        response = self.class.get("/api/service/#{service.to_s.downcase}/facility/id/#{id}.json")
+        response = self.class.get("/api/service/#{service.to_s.downcase}/facility/id/#{id}")
 
         begin
           body = response['results']['facility']
